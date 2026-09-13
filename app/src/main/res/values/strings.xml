@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Call Recorder</string>
+    <string name="accessibility_service_description">Enables Call Recorder to detect incoming and ongoing calls in WhatsApp, Messenger, IMO, and other calling apps to automatically record both sides without announcements.</string>
+</resources>

@@ -1,0 +1,6 @@
+{
+  "name": "Call Recorder",
+  "description": "Dark-themed call recorder for phone calls, WhatsApp, IMO, and Messenger with automatic and manual both-side recording.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
