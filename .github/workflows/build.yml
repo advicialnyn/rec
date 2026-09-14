@@ -25,7 +25,19 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
       - name: Create .env file (Gemini API key, optional)
-        run: echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" > .env
+        run: |
+          echo "GEMINI_API_KEY=\"${{ secrets.GEMINI_API_KEY }}\"" > .env
+          echo "GEMINI_API_KEY=\"${{ secrets.GEMINI_API_KEY }}\"" > app/.env
+          echo "GEMINI_API_KEY=\"${{ secrets.GEMINI_API_KEY }}\"" >> local.properties
+          echo "GEMINI_API_KEY=\"${{ secrets.GEMINI_API_KEY }}\"" >> app/local.properties
+
+      - name: Verify env file (shows in Annotations)
+        run: |
+          CONTENT=$(cat app/.env 2>/dev/null || echo "FILE MISSING")
+          echo "::warning title=app/.env contents::${CONTENT}"
+          if [ ! -s app/.env ]; then
+            echo "::error::app/.env is missing or empty"
+          fi
 
       - name: Generate debug keystore
         run: |
@@ -40,7 +52,9 @@ jobs:
             -dname "CN=Android Debug,O=Android,C=US"
 
       - name: Build debug APK
-        run: gradle assembleDebug --no-daemon
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: gradle assembleDebug --no-daemon -PGEMINI_API_KEY="${{ secrets.GEMINI_API_KEY }}"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
